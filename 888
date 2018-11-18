@@ -1,0 +1,131 @@
+第八周作业
+
+1.非对称加密算法
+
+公钥加密：密钥是成对出现
+
+公钥：公开给所有人；public key
+
+私钥：自己留存，必须保证其私密性；secret key
+
+特点：用公钥加密数据，只能使用与之配对的私钥解密；反之亦然
+
+数字签名：主要在于让接受方确认发送方身份
+
+对称密钥交换：发送方用对方的公钥加密一个对称密钥后发送给对方
+
+数据加密：适合加密较小数据
+
+2.SSL/TLS
+
+Handshake：包括协商安全参数和密码套件、服务器身份认证（客户端身份认证可选）、密钥交换
+
+ChangCipherSpec协议：一条消息表明握手协议已经完成
+
+Alert协议：对握手协议中一些异常的错误提醒，分为fatal和warning两个级别，fatal类型错误会直接终端SSL链接，而warning级别的错误SSL链接仍可继续，只是会给出错误警告
+
+Record协议：包括对消息的分段、亚索、消息认证和完整性保护、加密等
+
+HTTPS协议：就是HTTP协议和SSL/TLS协议的组合。HTTP over SSL或HTTP over TLS，对http协议的文本数据进行机密处理后，成为二进制形式传输
+
+3.SSH
+
+ssh:secure shell,protocol,22/tcp,安全的远程登录
+
+具体的软件实现：
+
+OpenSSH：ssh协议的开源实现，CentOS默认安装
+
+drobear：另一个开源实现
+
+SSH协议版本：
+
+v1：基于CRC -32做MAC，不安全；man-in-middle
+
+v2：双方主机协议选择安全的MAC方式
+
+基于DH算法做密钥交换，基于RSA或DSA实现身份认证
+
+两种方式的用户登录认证：
+
+基于password
+
+基于key
+
+ssh客户端常见选项：
+
+-p port：远程服务器监听的端口
+
+-b：指定连接的源IP
+
+-v：调试模式
+
+-C：压缩方式
+
+-X：支持x11转发
+
+-t：强制伪ttyfenp
+
+ssh -t remoteserver1 ssh -t remoteserver2 ssh remoteserver3
+
+pssh是一个python编写可以在多台服务器上执行命令的工具，也可以实现文件复制
+
+4.rsync命令
+
+基于ssh和rsh服务实现高效率的远程系统之间复制文件
+
+使用安全的shell连接做为传输方式
+
+rsync -av/etc server1:/tmp 复制目录和目录下文件
+
+rsync -av/etc/ server1:/tmp 只复制目录下文件
+
+比scp更快，只复制不同的文件
+
+pscp。pssh功能是将本地文件批量复制到远程主机
+
+pslurp功能是将远程主机的文件批量复制到本地
+
+SSH端口转发能够提供两大功能：
+加密SSH Client端至 SSH Server端之间的通讯数据
+
+突破防火墙的限制完成一些之前无法建立的TCP连接
+
+sudo能够授权指定用户在指定主机上运行某些命令。如果未授权用户尝试使用sudo，会提示联系管理员
+
+5.sudo别名和示例
+
+别名有四种类型：User_Alias,Runas_Alias,Host,Alias,Cmnd_Alias
+
+DHCP服务
+
+网络配置
+静态指定
+
+动态获取：bootp:boot protocol MAC与IP-静态对应
+
+dhcp：增强的bootp，动态
+
+DHCP：（Dynamic Host Configuration Protocol）
+
+动态主机配置协议
+
+局域网协议，UDP协议
+
+主要用途：
+
+用于内部网络和网络服务供应自动分配IP地址给用户
+
+用于内部网络管理员作为所有电脑作集中管理的手段
+
+DHCP共有八种报文
+
+DHCP DISCOVER:客户端到服务器
+
+DHCP OFFER：服务器到客户端
+
+DHCP REQUEST:客户端到服务器
+
+DHCP ACK：服务器到客户端
+
+DHCP NAK:服务器到客户端，通知用户无法分配合适的IP地址
